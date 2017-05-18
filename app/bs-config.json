@@ -1,0 +1,10 @@
+{
+  "server": {
+    "baseDir": "dist/client",
+    "routes": {
+      "/node_modules": "node_modules"
+    }
+  }
+}
+
+
