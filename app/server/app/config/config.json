@@ -1,6 +1,7 @@
  {
     "server": {
-        "port": 8090
+        "port": 8090,
+        "httpsport": 8443
     },
      "mongo" :{
             "host": "10.5.9.120",
