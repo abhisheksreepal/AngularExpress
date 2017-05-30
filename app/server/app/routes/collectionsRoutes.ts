@@ -13,7 +13,7 @@ const listOfRuns = "/collections/:collectionId/runs";
 const listOfRunsDocs = "/collections/:collectionId";
 const runInfo = "/collections/:collectionId/runs/:runId";
 const featureInfoForaRun = "/collections/:collectionId/runs/:runId/features";
-const feature = "/collections/:collectionId/runs/:runId/features/:featureName";
+const feature = /^\/collections\/([^\\\/]+?)\/runs\/([^\\\/]+?)\/features\/(.+)(?:\/(?=$))?$/i
 
 router.get(rootPath,function(req,res){
   res.redirect(collectionsPath);
@@ -273,6 +273,7 @@ router.get(featureInfoForaRun, function (req, res) {
   }) 
 });
 
+
 router.get(feature, function (req, res) {
     let components: String[] =[];
 
@@ -284,7 +285,7 @@ router.get(feature, function (req, res) {
   ).then(( db ) =>{
       console.log(`Connected to DB successfully`);
       
-      db.collection(req.params.collectionId).find({"runId": Number(req.params.runId)}).toArray((err,data) => {
+      db.collection(req.params[0]).find({"runId": Number(req.params[1])}).toArray((err,data) => {
                
                 let features =  {};
                 data.forEach( (row) => {
@@ -297,11 +298,11 @@ router.get(feature, function (req, res) {
                    }
                 })
                 for (let key in features){
-                    if(features[key].name !== req.params.featureName){
+                    if(features[key].name !== req.params[2]){
                         delete features[key];
                     }
                 }
-                console.log("PAram - "+req.params.featureName);
+                console.log("PAram - "+req.params[2]);
                 console.log(features);
                
                 db.close();
