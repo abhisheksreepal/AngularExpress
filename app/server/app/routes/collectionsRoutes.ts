@@ -56,9 +56,9 @@ router.get(listOfRuns, function (req, res) {
   ).then(( db ) =>{
       console.log(`Connected to DB successfully`);
       db.collection(req.params.collectionId).distinct("runId",{},(err,data) => {
-            console.log("Data - "+data);
+            console.log(`Data - ${data}`);
             if(err){
-                    res.send(500,`Something wrong ${err}`)
+                    res.status(500).send(`Something wrong ${err}`)
                 }
             db.close();
             res.json(data);
@@ -85,7 +85,7 @@ router.get(listOfRunsDocs, function (req, res) {
                     console.log(`URI - `+row.uri);
                 });
                 if(err){
-                    res.send(500,`Something wrong ${err}`)
+                    res.status(500).send(`Something wrong ${err}`)
                 }
                 db.close();
                 res.json(data);         
@@ -133,7 +133,7 @@ router.get(runInfo, function (req, res) {
                 runIdInfo['status'] = status;
                 runIdInfo['data'] = data;
                 if(err){
-                    res.send(500,`Something wrong ${err}`)
+                    res.status(500).send(`Something wrong ${err}`)
                 }
                 db.close();
                 res.json(runIdInfo);         
